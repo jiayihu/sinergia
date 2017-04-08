@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": ["dom", "es2015", "es2016"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "baseUrl": ".",
+        "paths": {}
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "atom": {
+        "rewriteTsconfig": false
+    }
+}

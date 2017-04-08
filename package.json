@@ -1,0 +1,32 @@
+{
+  "name": "sinergia",
+  "version": "0.0.1",
+  "description": "Collaborative iterable long running tasks via ES6 generators",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --inline",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiayihu/sinergia.git"
+  },
+  "keywords": [
+    "generators"
+  ],
+  "author": "Jiayi Hu <jiayi.ghu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jiayihu/sinergia/issues"
+  },
+  "homepage": "https://github.com/jiayihu/sinergia#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "co": "^4.6.0",
+    "ts-loader": "^2.0.3",
+    "tslint": "^5.0.0",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  }
+}
