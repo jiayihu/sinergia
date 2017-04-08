@@ -4,6 +4,7 @@ import { sinergia } from '../index';
 let iterator: IterableIterator<any>;
 
 function* work() {
+  // Array of elements
   const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
 
   // Expensive task, ran with every item
@@ -14,7 +15,7 @@ function* work() {
       yield;
     }
 
-    // simple `reducer` function composing a string
+    // Simple result of task
     return `${acc}${item}`;
   }
 
@@ -34,5 +35,5 @@ document.querySelector('.example1').addEventListener('click', function() {
 
 document.querySelector('.example1-interrupt').addEventListener('click', function() {
   const result = iterator.return();
-  console.log('Interrupted result', result);
+  console.log('Interrupted result', result.value);
 });
