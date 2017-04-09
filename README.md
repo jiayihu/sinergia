@@ -16,7 +16,7 @@ npm install sinergia --save
 
 > The following examples use [co](https://github.com/tj/co) to consume the generator functions.  
 
-In this example `expensiveTask` runs a long loop for every item, but every 10000 iterations it interrupts and gives the control to `sinergia`. `sinergia` will then resume the execution of `expensiveTask` when more suitable.
+In this example `expensiveTask` runs a long loop for every item, but every 100000 iterations it interrupts and gives the control to `sinergia`. `sinergia` will then resume the execution of `expensiveTask` when more suitable.
 
 By using `yield` inside your `expensiveTask` you can decide the priority of the execution. *Yielding* often will run the task smoothly chunk by chunk but it will complete in more time. On the other hand *yielding* fewer times it will complete the task sooner but it will block more the main thread. *Yielding* zero times is equal to running the task *synchronously*.
 
@@ -59,7 +59,7 @@ task.then((result) => {
 
 ### Abort execution
 
-Since `sinergia` is a common generator, you can use the returned object to abort the execution using [.return()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return) method of generators.
+Since `sinergia` is just a generator, you can use the returned object to abort the execution using [.return()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return) method of generators.
 
 ```javascript
 import co from 'co';
