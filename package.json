@@ -2,19 +2,18 @@
   "name": "sinergia",
   "version": "0.0.1",
   "description": "Cooperative expensive tasks via ES6 generators",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "typings": "index.d.ts",
   "files": [
     "index.d.ts",
-    "index.js",
-    "umd"
+    "lib"
   ],
   "scripts": {
-    "build": "tsc",
-    "build:browser": "tsc --declaration false --module UMD --outDir ./umd",
+    "build": "tsc && tsc --declaration false --module UMD --outDir ./tmp/umd",
+    "clean": "rimraf lib",
     "lint": "tslint \"./index.ts\"",
-    "start": "webpack-dev-server --inline",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "npm run build && npm run build:browser",
+    "prepublish": "npm run clean && npm run build && mkdir lib && regenerator --include-runtime tmp/index.js > lib/index.js && regenerator --include-runtime tmp/umd/index.js > lib/index.umd.js",
     "prepush": "npm run lint"
   },
   "repository": {
@@ -34,10 +33,9 @@
   "devDependencies": {
     "co": "^4.6.0",
     "husky": "^0.13.3",
-    "ts-loader": "^2.0.3",
+    "regenerator": "^0.9.7",
+    "rimraf": "^2.6.1",
     "tslint": "^5.0.0",
-    "typescript": "next",
-    "webpack": "^2.3.3",
-    "webpack-dev-server": "^2.4.2"
+    "typescript": "^2.2.2"
   }
 }

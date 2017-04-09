@@ -17,7 +17,7 @@ export function* sinergia(
   let animToken: number;
 
   try {
-    for (const item of (iterable as any)) { // TS 2.3 nightly error
+    for (const item of iterable) {
       const itemIterator: IterableIterator<any> = task(accumulator, item);
 
       yield new Promise(resolve => {
@@ -39,11 +39,11 @@ export function* sinergia(
       });
     }
 
-    return { value: accumulator};
+    return { value: accumulator };
   } finally {
     // This block is called when sinergia is interrupted with `.return()`
 
     if (animToken) window.cancelAnimationFrame(animToken);
-    yield { value: accumulator};
+    yield { value: accumulator };
   }
 }

@@ -1,6 +1,4 @@
 *.js
-index.d.ts
-umd
 
 bower_components
 node_modules
