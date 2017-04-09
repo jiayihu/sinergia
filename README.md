@@ -117,4 +117,4 @@ Returns the [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 
 ## Credits
 
-Ispiration comes largely from @LucaColonnello and @cef62.
+Ispiration comes largely from [@LucaColonnello](https://github.com/LucaColonnello) and [@cef62](https://github.com/cef62).
