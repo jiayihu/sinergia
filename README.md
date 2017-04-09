@@ -1,6 +1,6 @@
 # Sinergia
 
-[![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia)
+[![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia) [![travis](https://travis-ci.org/jiayihu/sinergia.svg?branch=master)](https://travis-ci.org/jiayihu/sinergia)
 
 **sinergia** is a tiny library to run expensive tasks on any `Iterable`* value in background, without blocking the UI during the computations and keeping 60fps frame rate.
 
