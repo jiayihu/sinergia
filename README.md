@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia) [![travis](https://travis-ci.org/jiayihu/sinergia.svg?branch=master)](https://travis-ci.org/jiayihu/sinergia)
 
-**sinergia** is a tiny library to run expensive tasks on any `Iterable`* value in background, without blocking the UI during the computations and keeping 60fps frame rate.
+**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks on any `Iterable`* value in background, without blocking the UI during the computations and keeping 60fps frame rate.
 
 (*) Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
 
