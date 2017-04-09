@@ -14,7 +14,7 @@
     "lint": "tslint \"./index.ts\"",
     "test": "jest",
     "prepublish": "npm run clean && npm run build && mkdir lib && regenerator --include-runtime tmp/index.js > lib/index.js && regenerator --include-runtime tmp/umd/index.js > lib/index.umd.js",
-    "prepush": "npm run lint"
+    "prepush": "npm run lint && npm test"
   },
   "repository": {
     "type": "git",
