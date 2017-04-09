@@ -16,7 +16,9 @@ npm install sinergia --save
 
 > The following examples use [co](https://github.com/tj/co) to consume the generator functions.  
 
-In this example `expensiveTask` runs a long loop for every item, but every 10000 iterations it interrupts waiting `sinergia`. `sinergia` will then continue the execution of `expensiveTask` when more suitable.
+In this example `expensiveTask` runs a long loop for every item, but every 10000 iterations it interrupts and gives the control to `sinergia`. `sinergia` will then resume the execution of `expensiveTask` when more suitable.
+
+By using `yield` inside your `expensiveTask` you can decide the priority of the execution. *Yielding* often will run the task smoothly chunk by chunk but it will complete in more time. On the other hand *yielding* fewer times it will complete the task sooner but it will block more the main thread. *Yielding* zero times is equal to running the task *synchronously*.
 
 ```javascript
 import co from 'co';
@@ -34,7 +36,7 @@ function* work() {
     while (x < 20000000) {
       x = x + 1;
 
-      // Tell sinergia when the task can be interrupted and continued later
+      // Tell sinergia when the task can be interrupted and resumed later
       if (x % 100000 === 0) yield x;
     }
 
