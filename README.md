@@ -6,6 +6,18 @@
 
 (*) Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
 
+## Demo
+
+A live example is available at [https://jiayihu.github.io/sinergia/](https://jiayihu.github.io/sinergia/), with an animated box which should remain smooth at 60fps.
+
+It's possible to play with the demo locally cloning the repo and running:
+
+```bash
+cd demo # Go to demo folder
+npm install # Or `yarn install`
+npm start
+```
+
 ## Installation
 
 ```
