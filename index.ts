@@ -41,6 +41,8 @@ export function* sinergia(
 
     return { value: accumulator};
   } finally {
+    // This block is called when sinergia is interrupted with `.return()`
+
     if (animToken) window.cancelAnimationFrame(animToken);
     yield { value: accumulator};
   }
