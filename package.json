@@ -12,7 +12,7 @@
     "build": "tsc && tsc --declaration false --module UMD --outDir ./tmp/umd",
     "clean": "rimraf lib",
     "lint": "tslint \"./index.ts\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepublish": "npm run clean && npm run build && mkdir lib && regenerator --include-runtime tmp/index.js > lib/index.js && regenerator --include-runtime tmp/umd/index.js > lib/index.umd.js",
     "prepush": "npm run lint"
   },
@@ -31,11 +31,25 @@
   "homepage": "https://github.com/jiayihu/sinergia#readme",
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^19.2.2",
     "co": "^4.6.0",
     "husky": "^0.13.3",
+    "jest": "^19.0.2",
     "regenerator": "^0.9.7",
     "rimraf": "^2.6.1",
+    "ts-jest": "^19.0.8",
     "tslint": "^5.0.0",
     "typescript": "^2.2.2"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(test/.*\\.spec\\.(ts|js))$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   }
 }
