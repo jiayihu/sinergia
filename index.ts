@@ -7,17 +7,17 @@ const defaultOptions: IOptions = {
 };
 
 export function* sinergia(
-  iterable: Iterable<any>, 
-  task: (accumulator: any, item: any) => any, 
+  iterable: Iterable<any>,
+  task: (accumulator: any, item: any) => any,
   initialValue: any,
-  options: IOptions = {}
+  options: IOptions = {},
 ) {
   const actualOptions = { ...defaultOptions, ...options };
   let accumulator: any = initialValue;
   let animToken: number;
 
   try {
-    for (const item of iterable) {
+    for (const item of (iterable as any)) { // TS 2.3 nightly error
       const itemIterator: IterableIterator<any> = task(accumulator, item);
 
       yield new Promise(resolve => {

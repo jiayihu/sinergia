@@ -1,16 +1,19 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "declaration": false,
+        "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": ["dom", "es2015", "es2016"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es6",
+        "target": "es5",
         "baseUrl": ".",
         "paths": {}
     },
+    "files": [
+      "index.ts"
+    ],
     "exclude": [
         "dist",
         "node_modules"

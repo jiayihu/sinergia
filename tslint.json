@@ -15,7 +15,7 @@
     "no-var-requires": false,
     "ordered-imports": [false],
     "quotemark": [true, "single"],
-    "trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
+    "trailing-comma": [true, { "multiline": "always", "singleline": "never" }],
     "variable-name": [true, "check-format", "allow-leading-underscore"]
     }
 }

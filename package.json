@@ -3,9 +3,19 @@
   "version": "0.0.1",
   "description": "Cooperative expensive tasks via ES6 generators",
   "main": "index.js",
+  "files": [
+    "index.d.ts",
+    "index.js",
+    "umd"
+  ],
   "scripts": {
+    "build": "tsc",
+    "build:browser": "tsc --declaration false --module UMD --outDir ./umd",
+    "lint": "tslint \"./index.ts\"",
     "start": "webpack-dev-server --inline",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build && npm run build:browser",
+    "prepush": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -23,9 +33,10 @@
   "dependencies": {},
   "devDependencies": {
     "co": "^4.6.0",
+    "husky": "^0.13.3",
     "ts-loader": "^2.0.3",
     "tslint": "^5.0.0",
-    "typescript": "^2.2.2",
+    "typescript": "next",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   }

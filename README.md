@@ -1,8 +1,8 @@
 # Sinergia
 
-**sinergia** is a library to run expensive tasks on any iterable* value in background, without blocking the UI during the computations keeping 60fps frame rate.
+**sinergia** is a tiny library to run expensive tasks on any `Iterable`* value in background, without blocking the UI during the computations keeping 60fps frame rate.
 
-Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
+(*) Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
 
 ## Installation
 
