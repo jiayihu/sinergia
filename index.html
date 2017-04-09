@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sinergia - demo</title>
+    <link rel="icon" href="favicon.ico?v=2"/>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/prism.css">
+    <link rel="stylesheet" href="assets/animation.css" >
+  </head>
+  <body>
+    <div class="container pt-sm-5">
+      <p>This box animation should be always smooth. Check FPS meter in <code>Chrome devtools > Rendering > FPS Meter</code></p>
+      <div class="box">
+        <span class="dot"></span>
+      </div>
+
+      <hr />
+
+      <h3>Long running loop</h3>
+
+      <div class="text-center">
+        <button class="example1 btn btn-primary">Execute task - see console</button>
+        <button class="example1-interrupt btn btn-primary">Abort execution</button>
+      </div>
+
+      <h5>Code</h5>
+
+      <pre>
+        <code class="language-javascript">
+function* work() {
+// Array of elements
+const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+
+// Expensive task, ran with every item
+function* expensiveTask(acc, item) {
+  let x = 0;
+  while (x < 20000000) {
+    x = x + 1;
+
+    // Tell sinergia when the task can be interrupted and resumed later
+    if (x % 100000 === 0) yield x;
+  }
+
+  // Simple result of task
+  return `${acc}${item}`;
+}
+
+console.log('Starting work');
+iterator = sinergia(iterable, expensiveTask, '', { debug: true });
+
+const result = yield* iterator;
+return result;
+}</code>
+      </pre>
+    </div>
+
+
+    <script src="dist/main.js" charset="utf-8"></script>
+    <script src="assets/prism.js"></script>
+  </body>
+</html>
