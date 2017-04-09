@@ -1,7 +1,7 @@
 {
   "name": "sinergia",
   "version": "0.0.1",
-  "description": "Collaborative iterable long running tasks via ES6 generators",
+  "description": "Cooperative expensive tasks via ES6 generators",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline",

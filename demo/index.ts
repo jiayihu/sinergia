@@ -8,18 +8,21 @@ function* work() {
   const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
 
   // Expensive task, ran with every item
-  function* expensiveTask(acc: string, item) {
+  function* expensiveTask(acc, item) {
     let x = 0;
-    while (x < 200000) {
+    while (x < 20000000) {
       x = x + 1;
-      yield;
+
+      // Tell sinergia when the task can be interrupted and continued later
+      if (x % 100000 === 0) yield x;
     }
 
     // Simple result of task
     return `${acc}${item}`;
   }
 
-  iterator = sinergia(iterable, expensiveTask, '');
+  console.log('Starting work');
+  iterator = sinergia(iterable, expensiveTask, '', { debug: true });
 
   const result = yield* iterator;
   return result;
@@ -29,7 +32,7 @@ document.querySelector('.example1').addEventListener('click', function() {
   const task = co(work);
   task.then((result) => {
     // If the work wasn't interrupted
-    if (result) console.log(`Result: ${result}`);
+    if (result) console.log(`Result: ${result.value}`);
   });
 });
 
