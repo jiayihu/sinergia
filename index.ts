@@ -25,7 +25,7 @@ export function* sinergia(
           const iteration = itemIterator.next();
 
           if (!iteration.done) {
-            window.requestAnimationFrame(step);
+            requestAnimationFrame(step);
           }
           else {
             if (actualOptions.debug) console.log(`item task is done with latest iteration`, iteration);
@@ -34,7 +34,7 @@ export function* sinergia(
           }
         };
 
-        animToken = window.requestAnimationFrame(step);
+        animToken = requestAnimationFrame(step);
       });
     }
 
@@ -42,7 +42,7 @@ export function* sinergia(
   } finally {
     // This block is called when sinergia is interrupted with `.return()`
 
-    if (animToken) window.cancelAnimationFrame(animToken);
+    if (animToken) cancelAnimationFrame(animToken);
     yield { value: accumulator };
   }
 }
