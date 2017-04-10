@@ -30,7 +30,6 @@ export function* sinergia(
           else {
             if (actualOptions.debug) console.log(`item task is done with latest iteration`, iteration);
             accumulator = iteration.value;
-            window.cancelAnimationFrame(animToken);
             resolve();
           }
         };

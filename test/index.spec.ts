@@ -3,7 +3,6 @@ import * as co from 'co';
 
 describe('Basic behaviour', function() {
   let rafMock;
-  let cafMock;
 
   const ITERABLE_LENGTH = 5;
   const ITERATIONS_PER_ITEM = 20;
@@ -11,9 +10,7 @@ describe('Basic behaviour', function() {
 
   beforeEach(function() {
     rafMock = jest.fn((cb) => cb());
-    cafMock = jest.fn();
     window.requestAnimationFrame = rafMock;
-    window.cancelAnimationFrame = cafMock;
   });
 
   function* work() {
@@ -44,13 +41,6 @@ describe('Basic behaviour', function() {
       // and ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD to complete it
       const times = ITERABLE_LENGTH * (ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD) + ITERABLE_LENGTH;
       expect(rafMock).toHaveBeenCalledTimes(times);
-    });
-  });
-
-  test('it should cancel requestAnimationFrame when finished', function() {
-    return co(work).then((result: any) => {
-      const times = ITERABLE_LENGTH; // Once for every item
-      expect(cafMock).toHaveBeenCalledTimes(times);
     });
   });
 });
