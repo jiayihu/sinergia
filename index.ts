@@ -30,7 +30,7 @@ export function* sinergia(
             resolve();
           }
           else {
-            requestAnimationFrame(step);
+            animToken = requestAnimationFrame(step);
           }
         };
 
