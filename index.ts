@@ -21,7 +21,7 @@ export function* sinergia(
       const itemIterator: IterableIterator<any> = task(accumulator, item);
 
       yield new Promise(resolve => {
-        const step = (timestamp) => { // timestamp not used
+        const step = () => {
           const iteration = itemIterator.next();
 
           if (!iteration.done) {
