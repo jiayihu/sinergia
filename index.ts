@@ -24,13 +24,13 @@ export function* sinergia(
         const step = () => {
           const iteration = itemIterator.next();
 
-          if (!iteration.done) {
-            requestAnimationFrame(step);
-          }
-          else {
+          if (iteration.done) {
             if (actualOptions.debug) console.log(`item task is done with latest iteration`, iteration);
             accumulator = iteration.value;
             resolve();
+          }
+          else {
+            requestAnimationFrame(step);
           }
         };
 
