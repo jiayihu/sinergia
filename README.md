@@ -136,6 +136,14 @@ window.setTimeout(() => {
 It runs asynchronously the `task` function for each item of the `iterable` in not blocking way.
 Returns the [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) object.
 
+## Browser support
+
+**sinergia** requires polyfills for:
+
+1. *Promise* like [es6-promise](https://github.com/stefanpenner/es6-promise) or [core-js Promise](https://github.com/zloirock/core-js#ecmascript-6-promise). If you use [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) it's already included.
+
+2. *requestAnimationFrame/cancelAnimationFrame*. See this [gist](https://gist.github.com/paulirish/1579671) as example.
+
 ## Credits
 
 Ispiration comes largely from [@LucaColonnello](https://github.com/LucaColonnello) and [@cef62](https://github.com/cef62).
