@@ -30,11 +30,11 @@ export function* sinergia(
             resolve();
           }
           else {
-            animToken = requestAnimationFrame(step);
+            animToken = window.requestAnimationFrame(step);
           }
         };
 
-        animToken = requestAnimationFrame(step);
+        animToken = window.requestAnimationFrame(step);
       });
     }
 
@@ -42,7 +42,7 @@ export function* sinergia(
   } finally {
     // This block is called when sinergia is interrupted with `.return()`
 
-    if (animToken) cancelAnimationFrame(animToken);
+    if (animToken) window.cancelAnimationFrame(animToken);
     yield { value: accumulator };
   }
 }
