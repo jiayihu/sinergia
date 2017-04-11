@@ -21,17 +21,16 @@ export function* sinergia(
       const itemIterator: IterableIterator<any> = task(accumulator, item);
 
       yield new Promise(resolve => {
-        const step = (timestamp) => { // timestamp not used
+        const step = () => {
           const iteration = itemIterator.next();
 
-          if (!iteration.done) {
-            window.requestAnimationFrame(step);
-          }
-          else {
+          if (iteration.done) {
             if (actualOptions.debug) console.log(`item task is done with latest iteration`, iteration);
             accumulator = iteration.value;
-            window.cancelAnimationFrame(animToken);
             resolve();
+          }
+          else {
+            animToken = window.requestAnimationFrame(step);
           }
         };
 
