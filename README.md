@@ -36,8 +36,6 @@ By using `yield` inside your `work` you can decide the priority of the execution
 import co from 'co';
 import { sinergia } from 'sinergia';
 
-let iterator;
-
 function* work() {
   const iterable = 'Absent gods.'.split('');
   let result = '';
