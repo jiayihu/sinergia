@@ -13,33 +13,38 @@ describe('Basic behaviour', function() {
     window.requestAnimationFrame = rafMock;
   });
 
-  function* work() {
+  const work: any = function*() {
     const iterable = ['H', 'e', 'l', 'l', 'o'];
+    let result = '';
 
-    function* expensiveTask(acc, item) {
+    for (const item of iterable) {
       let x = 0;
       while (x < 20) {
         x = x + 1;
-        if (x % 2 === 0) yield x;
+        if (x % 2 === 0) yield result;
       }
 
-      return `${acc}${item}`;
+      result += item;
     }
 
-    return yield* sinergia(iterable, expensiveTask, '');
-  }
+    yield result;
+  };
 
   test('it should complete', function() {
-    return co(work).then((result: any) => {
+    return co(function*(){
+      return yield* sinergia(work);
+    }).then((result: any) => {
       expect(result.value).toBe('Hello');
     });
   });
 
   test('it should divide task in chunks', function() {
-    return co(work).then((result: any) => {
-      // requestAnimationFrame is called, for every item, 1 time to start the task
-      // and ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD to complete it
-      const times = ITERABLE_LENGTH * (ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD) + ITERABLE_LENGTH;
+    return co(function*(){
+      return yield* sinergia(work);
+    }).then((result: any) => {
+      // requestAnimationFrame is called ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD
+      // times to complete an item, plus 1 first call and 1 call for the final result
+      const times = ITERABLE_LENGTH * (ITERATIONS_PER_ITEM / ITERATIONS_PER_YIELD) + 2;
       expect(rafMock).toHaveBeenCalledTimes(times);
     });
   });

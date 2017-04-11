@@ -1,18 +1,22 @@
 export function* sinergia(work: GeneratorFunction) {
   let result: any;
   let animToken: number;
+  let _resolve;
 
   try {
     const workIterator: Generator = work();
     yield new Promise(resolve => {
+      _resolve = resolve;
+
       const step = () => {
         const iteration = workIterator.next();
-        result = iteration.value;
 
         if (iteration.done) {
-          resolve({ value: result });
+          resolve();
+          return;
         }
 
+        result = iteration.value;
         animToken = window.requestAnimationFrame(step);
       };
 
@@ -24,6 +28,8 @@ export function* sinergia(work: GeneratorFunction) {
     // This block is called when sinergia is interrupted with `.return()`
 
     if (animToken) window.cancelAnimationFrame(animToken);
+    _resolve();
+
     yield { value: result };
   }
 }

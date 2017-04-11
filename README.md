@@ -2,9 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia) [![travis](https://travis-ci.org/jiayihu/sinergia.svg?branch=master)](https://travis-ci.org/jiayihu/sinergia)
 
-**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks on any `Iterable`* value without blocking the UI during the computations and keeping 60fps frame rate.
-
-(*) Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
+**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks  without blocking the UI during the computations and keeping 60fps frame rate.
 
 ## Demo
 
@@ -28,11 +26,11 @@ npm install sinergia --save
 
 > The following examples use [co](https://github.com/tj/co) to consume the generator functions.  
 
-In this example `expensiveTask` runs a long loop for every item, but every 100000 iterations it interrupts and gives the control to `sinergia`, which will resume the execution of `expensiveTask` when more suitable.  
+In this example `work` runs a long loop for every item, but every 100000 iterations it interrupts and gives the control to `sinergia`, which will resume the execution of `work` when more suitable.  
 
 Execution tasks are by definition [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) because they decide when to `yield` the control of the execution.
 
-By using `yield` inside your `expensiveTask` you can decide the priority of the execution. *Yielding* often will run the task smoothly chunk by chunk but it will complete in more time. On the other hand *yielding* fewer times it will complete the task sooner but it will block more the main thread. *Yielding* zero times is equal to running the task *synchronously*.
+By using `yield` inside your `work` you can decide the priority of the execution. *Yielding* often will run the task smoothly chunk by chunk but it will complete in more time. On the other hand *yielding* fewer times it will complete the task sooner but it will block more the main thread. *Yielding* zero times is equal to running the task *synchronously*.
 
 ```javascript
 import co from 'co';
@@ -41,31 +39,30 @@ import { sinergia } from 'sinergia';
 let iterator;
 
 function* work() {
-  // Array of elements
-  const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  const iterable = 'Absent gods.'.split('');
+  let result = '';
 
-  // Expensive task, ran with every item
-  function* expensiveTask(acc, item) {
+  for (let item of iterable) {
     let x = 0;
-    while (x < 20000000) {
+
+    while (x < 2000000) {
       x = x + 1;
 
       // Tell sinergia when the task can be interrupted and resumed later
-      if (x % 100000 === 0) yield x;
+      if (x % 100000 === 0) yield result;
     }
 
-    // Simple result of task
-    return `${acc}${item}`;
+    result += item; // Simple result of task
+    console.log(`Result of iteration:`, result);
   }
 
-  iterator = sinergia(iterable, expensiveTask, '');
-
-  const result = yield* iterator;
-  return result;
+  yield result; // Yield latest result
 }
 
-const task = co(work);
-task.then((result) => {
+const execute = co(function* () {
+  return yield* sinergia(work);
+});
+execute.then((result) => {
   // If the work wasn't interrupted
   if (result) console.log(`Result: ${result.value}`);
 });
@@ -81,34 +78,34 @@ The method will return `{ value: any }` with the value of the result computed on
 import co from 'co';
 import { sinergia } from 'sinergia';
 
-let iterator;
-
 function* work() {
-  // Array of elements
-  const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  const iterable = 'Absent gods.'.split('');
+  let result = '';
 
-  // Expensive task, ran with every item
-  function* expensiveTask(acc, item) {
+  for (let item of iterable) {
     let x = 0;
-    while (x < 20000000) {
+
+    while (x < 2000000) {
       x = x + 1;
 
-      // Tell sinergia when the task can be interrupted and continued later
-      if (x % 100000 === 0) yield x;
+      // Tell sinergia when the task can be interrupted and resumed later
+      if (x % 100000 === 0) yield result;
     }
 
-    // Simple result of task
-    return `${acc}${item}`;
+    result += item; // Simple result of task
+    console.log(`Result of iteration:`, result);
   }
 
-  iterator = sinergia(iterable, expensiveTask, '');
-
-  const result = yield* iterator;
-  return result;
+  yield result; // Yield latest result
 }
 
-const task = co(work);
-task.then((result) => {
+let iterator;
+
+const execute = co(function* () {
+  iterator = sinergia(work);
+  return yield* iterator;
+});
+execute.then((result) => {
   // If the work wasn't interrupted
   if (result) console.log(`Result: ${result.value}`);
 });
@@ -121,19 +118,9 @@ window.setTimeout(() => {
 
 ## API
 
-#### sinergia(iterable: Iterable<any>, task: Function, initialValue: any, options: IOptions): Generator
+#### sinergia(work: GeneratorFunction): Generator
 
-- *task* has shape: `(accumulator: any, item: any) => any`
-
-- *options* has shape:
-  ```typescript
-  interface IOptions {
-    // Show a log of every item completion
-    debug?: boolean;
-  }
-  ```
-
-It runs asynchronously the `task` function for each item of the `iterable` in not blocking way.
+It runs asynchronously the `work` function in not blocking way.
 Returns the [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) object.
 
 ## Browser support

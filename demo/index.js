@@ -4,11 +4,10 @@ import { sinergia } from '../lib/';
 import co from 'co';
 
 function* work() {
-  // Array of elements
-  const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  const iterable = 'Absent gods.'.split('');
   let result = '';
 
-  for (let i = 0; i < iterable.length; i += 1) {
+  for (let item of iterable) {
     let x = 0;
 
     while (x < 2000000) {
@@ -18,20 +17,21 @@ function* work() {
       if (x % 100000 === 0) yield result;
     }
 
-    // Simple result of task
-    result += iterable[i];
+    result += item; // Simple result of task
     console.log(`Result of iteration:`, result);
   }
+
+  yield result; // Yield latest result
 }
 
 let iterator;
 
 document.querySelector('.example1').addEventListener('click', function() {
-  const task = co(function* () {
+  const execute = co(function* () {
     iterator = sinergia(work);
     return yield* iterator;
   });
-  task.then((result) => {
+  execute.then((result) => {
     // If the work wasn't interrupted
     if (result) console.log(`Result: ${result.value}`);
   });
