@@ -30,28 +30,24 @@
       <pre>
         <code class="language-javascript">
 function* work() {
-// Array of elements
-const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  // Array of elements
+  const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  let result = '';
 
-// Expensive task, ran with every item
-function* expensiveTask(acc, item) {
-  let x = 0;
-  while (x < 2000000) {
-    x = x + 1;
+  for (let i = 0; i < iterable.length; i += 1) {
+    let x = 0;
 
-    // Tell sinergia when the task can be interrupted and resumed later
-    if (x % 100000 === 0) yield x;
+    while (x < 2000000) {
+      x = x + 1;
+
+      // Tell sinergia when the task can be interrupted and resumed later
+      if (x % 100000 === 0) yield result;
+    }
+
+    // Simple result of task
+    result += iterable[i];
+    console.log(`Result of iteration:`, result);
   }
-
-  // Simple result of task
-  return `${acc}${item}`;
-}
-
-console.log('Starting work');
-iterator = sinergia(iterable, expensiveTask, '', { debug: true });
-
-const result = yield* iterator;
-return result;
 }</code>
       </pre>
     </div>
