@@ -2,13 +2,14 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "declaration": true,
+        "downlevelIteration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": ["dom", "es2015", "es2016"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "./tmp",
-        "target": "es6",
+        "outDir": "./lib",
+        "target": "es5",
         "baseUrl": ".",
         "paths": {}
     },
