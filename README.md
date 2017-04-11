@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia) [![travis](https://travis-ci.org/jiayihu/sinergia.svg?branch=master)](https://travis-ci.org/jiayihu/sinergia)
 
-**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks on any `Iterable`* value in background, without blocking the UI during the computations and keeping 60fps frame rate.
+**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks on any `Iterable`* value without blocking the UI during the computations and keeping 60fps frame rate.
 
 (*) Any object which implements [Symbol.iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator) can be iterated. Native iterables are arrays, strings, Maps and Sets.
 
@@ -28,7 +28,9 @@ npm install sinergia --save
 
 > The following examples use [co](https://github.com/tj/co) to consume the generator functions.  
 
-In this example `expensiveTask` runs a long loop for every item, but every 100000 iterations it interrupts and gives the control to `sinergia`. `sinergia` will then resume the execution of `expensiveTask` when more suitable.
+In this example `expensiveTask` runs a long loop for every item, but every 100000 iterations it interrupts and gives the control to `sinergia`, which will resume the execution of `expensiveTask` when more suitable.  
+
+Execution tasks are by definition [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) because they decide when to `yield` the control of the execution.
 
 By using `yield` inside your `expensiveTask` you can decide the priority of the execution. *Yielding* often will run the task smoothly chunk by chunk but it will complete in more time. On the other hand *yielding* fewer times it will complete the task sooner but it will block more the main thread. *Yielding* zero times is equal to running the task *synchronously*.
 
@@ -72,6 +74,8 @@ task.then((result) => {
 ### Abort execution
 
 Since `sinergia` is just a generator, you can use the returned object to abort the execution using [.return()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator/return) method of generators.
+
+The method will return `{ value: any }` with the value of the result computed on the latest item before aborting.
 
 ```javascript
 import co from 'co';
@@ -124,6 +128,7 @@ window.setTimeout(() => {
 - *options* has shape:
   ```typescript
   interface IOptions {
+    // Show a log of every item completion
     debug?: boolean;
   }
   ```
