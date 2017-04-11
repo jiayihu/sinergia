@@ -1,37 +1,36 @@
-// import { sinergia } from '../lib/';
+import { sinergia } from '../lib/';
 
-import { sinergia } from 'sinergia';
+// import { sinergia } from 'sinergia';
 import co from 'co';
-
-let iterator;
 
 function* work() {
   // Array of elements
   const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  let result = '';
 
-  // Expensive task, ran with every item
-  function* expensiveTask(acc, item) {
+  for (let i = 0; i < iterable.length; i += 1) {
     let x = 0;
+
     while (x < 2000000) {
       x = x + 1;
 
       // Tell sinergia when the task can be interrupted and resumed later
-      if (x % 100000 === 0) yield x;
+      if (x % 100000 === 0) yield result;
     }
 
     // Simple result of task
-    return `${acc}${item}`;
+    result += iterable[i];
+    console.log(`Result of iteration:`, result);
   }
-
-  console.log('Starting work');
-  iterator = sinergia(iterable, expensiveTask, '', { debug: true });
-
-  const result = yield* iterator;
-  return result;
 }
 
+let iterator;
+
 document.querySelector('.example1').addEventListener('click', function() {
-  const task = co(work);
+  const task = co(function* () {
+    iterator = sinergia(work);
+    return yield* iterator;
+  });
   task.then((result) => {
     // If the work wasn't interrupted
     if (result) console.log(`Result: ${result.value}`);

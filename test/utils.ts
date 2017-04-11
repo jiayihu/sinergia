@@ -11,7 +11,10 @@ export function co(genFunc) {
     step(genObj.next());
 
     function step({ value, done }) {
-      if (done) return;
+      if (done) {
+        resolve(value);
+        return;
+      }
 
       if (isPromise(value)) {
         value
@@ -21,11 +24,6 @@ export function co(genFunc) {
           .catch(error => {
             step(genObj.throw(error)); // (B)
           });
-      }
-
-      if (value.value) {
-        // It's the result
-        resolve(value);
       }
     }
   });

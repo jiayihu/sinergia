@@ -1,48 +1,29 @@
-export interface IOptions {
-  debug?: boolean;
-}
-
-const defaultOptions: IOptions = {
-  debug: false,
-};
-
-export function* sinergia(
-  iterable: Iterable<any>,
-  task: (accumulator: any, item: any) => any,
-  initialValue: any,
-  options: IOptions = {},
-) {
-  const actualOptions = { ...defaultOptions, ...options };
-  let accumulator: any = initialValue;
+export function* sinergia(work: GeneratorFunction) {
+  let result: any;
   let animToken: number;
 
   try {
-    for (const item of iterable) {
-      const itemIterator: IterableIterator<any> = task(accumulator, item);
+    const workIterator: Generator = work();
+    yield new Promise(resolve => {
+      const step = () => {
+        const iteration = workIterator.next();
+        result = iteration.value;
 
-      yield new Promise(resolve => {
-        const step = () => {
-          const iteration = itemIterator.next();
-
-          if (iteration.done) {
-            if (actualOptions.debug) console.log(`item task is done with latest iteration`, iteration);
-            accumulator = iteration.value;
-            resolve();
-          }
-          else {
-            animToken = window.requestAnimationFrame(step);
-          }
-        };
+        if (iteration.done) {
+          resolve({ value: result });
+        }
 
         animToken = window.requestAnimationFrame(step);
-      });
-    }
+      };
 
-    return { value: accumulator };
+      animToken = window.requestAnimationFrame(step);
+    });
+
+    return { value: result };
   } finally {
     // This block is called when sinergia is interrupted with `.return()`
 
     if (animToken) window.cancelAnimationFrame(animToken);
-    yield { value: accumulator };
+    yield { value: result };
   }
 }
