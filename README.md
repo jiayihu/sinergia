@@ -8,6 +8,12 @@
 
 A live example is available at [https://jiayihu.github.io/sinergia/](https://jiayihu.github.io/sinergia/), with an animated box which should remain smooth at 60fps.
 
+There are 2 examples:
+
+1. [Long running loop](https://jiayihu.github.io/sinergia/#loop): Running an expensive function (with a 2mln iterations loop) with each item of an iterable
+
+2. [Long merge sort](https://jiayihu.github.io/sinergia/#merge-sort): Running a common merge sort with an array of 100k items
+
 It's possible to play with the demo locally cloning the repo and running:
 
 ```bash

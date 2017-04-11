@@ -18,23 +18,20 @@
 
       <hr />
 
-      <h3>Long running loop</h3>
+      <h3 id="loop"><a href="#loop">#</a> Long running loop</h3>
 
       <div class="text-center">
-        <button class="example1 btn btn-primary">Execute task - see console</button>
-        <button class="example1-interrupt btn btn-primary">Abort execution</button>
+        <button class="loop btn btn-primary">Execute task - see console</button>
+        <button class="loop-interrupt btn btn-primary">Abort execution</button>
       </div>
-
-      <h5>Code</h5>
 
       <pre>
         <code class="language-javascript">
 function* work() {
-  // Array of elements
-  const iterable = 'Absent gods and silent tyranny We\'re going under hypnotised.'.split('');
+  const iterable = 'Absent gods.'.split('');
   let result = '';
 
-  for (let i = 0; i < iterable.length; i += 1) {
+  for (let item of iterable) {
     let x = 0;
 
     while (x < 2000000) {
@@ -44,14 +41,74 @@ function* work() {
       if (x % 100000 === 0) yield result;
     }
 
-    // Simple result of task
-    result += iterable[i];
+    result += item; // Simple result of task
     console.log(`Result of iteration:`, result);
   }
+
+  yield result; // Yield latest result
 }</code>
       </pre>
-    </div>
 
+      <hr />
+
+      <div class="box">
+        <span class="dot"></span>
+      </div>
+
+      <hr />
+
+      <h3 id="merge-sort"><a href="#merge-sort">#</a> Long Merge sort</h3>
+
+      <div class="text-center">
+        <button class="merge btn btn-primary">Execute merge sort - see console</button>
+        <button class="merge-interrupt btn btn-primary">Abort execution</button>
+      </div>
+
+      <pre>
+        <code class="language-javascript">
+const largeList = new Array(100000);
+for (let i = 0; i < largeList.length; i += 1) largeList[i] = Math.floor(Math.random() * 10000);
+
+function* work(values) {
+  const sort = function*(array) {
+    const len = array.length;
+    if (len < 2) {
+      return array;
+    }
+    const pivot = Math.ceil(len / 2);
+    return yield* merge(
+      yield* sort(array.slice(0, pivot)),
+      yield* sort(array.slice(pivot))
+    );
+  };
+
+  const merge = function*(left, right) {
+    let result = [];
+    while ((left.length > 0) && (right.length > 0)) {
+      if (left[0] > right[0]) {
+        result.push(left.shift());
+      }
+      else {
+        result.push(right.shift());
+      }
+    }
+
+    result = result.concat(left, right);
+    if (result.length > 100) {
+      // Pause when the merges start to become expensive
+      yield result;
+
+      // Don't always log
+      if (Math.floor(Math.random() * 10) === 1) console.log('I\'m working...');
+    }
+    return result;
+  };
+
+  return yield* sort(values);
+}</code>
+      </pre>
+
+    </div> <!-- Container -->
 
     <script src="dist/main.js" charset="utf-8"></script>
     <script src="assets/prism.js"></script>
