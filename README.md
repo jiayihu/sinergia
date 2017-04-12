@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/sinergia.svg)](https://www.npmjs.com/package/sinergia) [![travis](https://travis-ci.org/jiayihu/sinergia.svg?branch=master)](https://travis-ci.org/jiayihu/sinergia)
 
-**sinergia** is a tiny library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks  without blocking the UI during the computations and keeping 60fps frame rate.
+**sinergia** is a tiny (1KB gzipped) library to run [cooperative](https://en.wikipedia.org/wiki/Cooperative_multitasking) expensive tasks  without blocking the UI during the computations and keeping 60fps frame rate.
 
 ## Demo
 
