@@ -30,6 +30,7 @@ export function* sinergia(work: GeneratorFunction) {
     if (animToken) window.cancelAnimationFrame(animToken);
     _resolve();
 
+    // Return the latest yielded result
     yield { value: result };
   }
 }
